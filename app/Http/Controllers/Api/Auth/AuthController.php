@@ -32,6 +32,11 @@ class AuthController extends Controller
 
     public function logout()
     {
-        return ['salom'];
+        $user = auth()->user();
+        $user->tokens()->delete();
+
+        return response()->json([
+            'success' => 'siz profildan chiqdingiz',
+        ]);
     }
 }
