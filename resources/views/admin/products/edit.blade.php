@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <form action="{{ route('admin.products.update' , $data->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.products.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="col-md-12">
@@ -10,15 +10,15 @@
                         <div class="card-body">
                             @csrf
                             <div class="row">
-                                <h3>Edit {{__('backend.products')}} </h3>
+                                <h3>Edit {{ __('backend.products') }} </h3>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="">Image</label>
                                         <br>
                                         <img src="{{ $data->getFirstMediaUrl() ?? '' }}" alt="no image"
                                             style="width: 250px;">
-                                            <br>
-                                           <br>
+                                        <br>
+                                        <br>
                                         <input type="file" class="form-control" name="products">
                                         @error('image')
                                             <span class="text-danger">{{ $message }}</span>
@@ -26,7 +26,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Link</label>
-                                        <input type="text" value="{{$data->link}}" class="form-control" name="link">
+                                        <input type="text" value="{{ $data->link }}" class="form-control"
+                                            name="link">
                                         @error('link')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -35,7 +36,8 @@
                                 <div class="col-md-6 mt-2">
 
                                     <label for="">Titles</label>
-                                    <input type="text" class="form-control" value="{{$data->title}}" name="title" placeholder="title">
+                                    <input type="text" class="form-control" value="{{ $data->title }}" name="title"
+                                        placeholder="title">
                                     @error('title')
                                         <span class="text-danger">{{ $massage }}</span>
                                     @enderror
@@ -43,7 +45,7 @@
                                 <div class="col-md-12 mt-2">
                                     <label for="">Describtion</label>
                                     <textarea name="description"class="form-control" id="description" cols="30" rows="10">
-                                        {!!$data->description!!}
+                                        {!! $data->description !!}
                                     </textarea>
                                     @error('description')
                                         <span class="text-danger">{{ $message }}</span>
@@ -59,7 +61,8 @@
                                 <h3>RU</h3>
                                 <div class="col-md-6 mt-2">
                                     <label for="">Titles</label>
-                                    <input type="text" class="form-control"  value="{{$data->title_ru}}"name="title_ru" placeholder="title">
+                                    <input type="text" class="form-control" value="{{ $data->title_ru }}"name="title_ru"
+                                        placeholder="title">
                                     @error('title_ru')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -67,7 +70,7 @@
                                 <div class="col-md-12 mt-2">
                                     <label for="">Describtion</label>
                                     <textarea name="description_ru" class="form-control" id="description1" cols="30" rows="10">
-                                        {!!$data->description_ru!!}
+                                        {!! $data->description_ru !!}
                                     </textarea>
                                     @error('description_ru')
                                         <span class="text-danger">{{ $message }}</span>
@@ -82,16 +85,17 @@
                                 <h3>EN</h3>
                                 <div class="col-md-6 mt-2">
                                     <label for="">Titles</label>
-                                    <input type="text" class="form-control" value="{{$data->title_en}}" name="title_en" placeholder="title">
+                                    <input type="text" class="form-control" value="{{ $data->title_en }}"
+                                        name="title_en" placeholder="title">
                                     @error('title_en')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="col-md-12 mt-2">
                                     <label for="">Describtion</label>
-                                    <textarea name="description_en"  id="description2" class="form-control ckeditor" id="" cols="30"
+                                    <textarea name="description_en" id="description2" class="form-control ckeditor" id="" cols="30"
                                         rows="30">
-                                    {!!$data->description_en!!}
+                                    {!! $data->description_en !!}
                                     
                                     </textarea>
                                     @error('description_en')
@@ -109,17 +113,29 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
-            .create(document.querySelector('#description'))
+            .create(document.querySelector('#description'), {
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            })
             .catch(error => {
                 console.error(error);
             });
         ClassicEditor
-            .create(document.querySelector('#description1'))
+            .create(document.querySelector('#description1'), {
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            })
             .catch(error => {
                 console.error(error);
             });
         ClassicEditor
-            .create(document.querySelector('#description2'))
+            .create(document.querySelector('#description2'), {
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            })
             .catch(error => {
                 console.error(error);
             });

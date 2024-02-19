@@ -41,7 +41,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-12 mt-2">
-                                    
+
                                     <textarea name="description" class="form-control" id="description" cols="30" rows="10"></textarea>
                                     @error('description')
                                         <span class="text-danger">{{ $message }}</span>
@@ -102,10 +102,15 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
     <script>
         let secondEditor;
+        let treeEditor;
 
         // Initialize CKEditor for the second editor ('description1')
         ClassicEditor
-            .create(document.querySelector('#description1'))
+            .create(document.querySelector('#description1'), {
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            })
             .then(editor => {
                 editor.plugins.get('FileRepository').createUploadAdapter = loader => {
                     return new MyUploadAdapter(loader);
@@ -118,9 +123,9 @@
 
         // Initialize CKEditor for the first editor ('description')
         ClassicEditor
-            .create(document.querySelector('#description'), {
-                ckfinder: {
-                    uploadUrl: '{{ route('global.image.upload') . '?_token=' . csrf_token() }}',
+            .create(document.querySelector('#description'),{
+                mediaEmbed: {
+                    previewsInData: true
                 }
             })
             .then(editor => {
@@ -135,9 +140,10 @@
                         // Update the content in the second editor
                         const content = editor.getData();
                         secondEditor.setData(content);
+                        treeEditor.setData(content)
                     }
                 });
-                
+
             })
             .catch(error => {
                 console.error('Error during initialization of CKEditor', error);
@@ -145,11 +151,16 @@
 
 
         ClassicEditor
-            .create(document.querySelector('#description2'))
+            .create(document.querySelector('#description2'), {
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            })
             .then(editor => {
                 editor.plugins.get('FileRepository').createUploadAdapter = loader => {
                     return new MyUploadAdapter(loader);
                 };
+                treeEditor = editor;
             })
             .catch(error => {
                 console.error(error);
