@@ -1,0 +1,149 @@
+html {
+  background-color: attr(data-bs-theme);
+}
+.newbtn {
+  background-color: rgb(197, 193, 193);
+  color: silver;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+}
+.newbtn:hover {
+  transition: all 0.5s;
+  background-color: #3fb3f4;
+  color: silver;
+  border-radius: 5px;
+  text-align: center;
+}
+.nav-item {
+  margin: 8px;
+  color: white;
+}
+
+.nav-item:hover .nav-item > .nav-link > span {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+.nav-item > .nav-link > i {
+  color: white;
+}
+.nav-sm > .nav-link {
+  color: white;
+}
+.nav-item > .nav-link > span {
+  color: white;
+}
+
+.btn-cusbutton {
+  background-color: #34bc46;
+}
+.btn-cusbutton{
+  color: #07a48aaa;
+}
+/* topbar dark and light */
+.navbar-menu {
+  background: none;
+}
+html[data-bs-theme="dark"] .navbar-header {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, #313741, #316058);
+}
+html[data-bs-theme="light"] .navbar-header {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, #ffffff, #70e8d2);
+}
+html[data-bs-theme="dark"] .navbar-menu {
+  background: rgb(2, 0, 36) !important;
+  background: linear-gradient(#313741, #316058) !important;
+}
+html[data-bs-theme="light"] .navbar-menu {
+  background: rgb(2, 0, 36) !important;
+  background: linear-gradient(#ffffff, #70e8d2) !important;
+}
+html[data-bs-theme="light"] .nav-item > .nav-link > i {
+  color: black !important;
+}
+html[data-bs-theme="light"] .nav-item > .nav-link > span {
+  color: black !important;
+}
+html[data-bs-theme="dark"] .nav-item > .nav-link > i {
+  color: white !important;
+}
+html[data-bs-theme="dark"] .nav-item > .nav-link > span {
+  color: white !important;
+}
+/* hover */
+html[data-bs-theme="light"] .nav-item:hover {
+  background-color: #28b0ce !important;
+  color: white !important;
+  border-radius: 10px;
+}
+html[data-bs-theme="light"] .nav-item:hover span {
+  color: white !important;
+}
+
+html[data-bs-theme="light"] .nav-item:hover i {
+  color: white !important;
+}
+/* new brand logo */
+html[data-sidebar-size="lg"] .navbar-logo{
+  background-color: white;
+}
+html[data-sidebar-size="sm"] .navbar-logo{
+  background-color: white;
+}
+html[data-bs-theme="dark"] .nav-item:hover {
+  background-color: #208375 !important;
+  color: white !important;
+  border-radius: 10px;
+}
+html[data-bs-theme="dark"] .navbar-logo {
+ background-color: #313741;
+}
+html[data-bs-theme="light"] .navbar-logo {
+  background-color: white;
+ }
+.col-table {
+  text-align: center;
+}
+.toggle-btn:hover {
+  color: red;
+  background-color: #34bc46;
+}
+.blockView {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.blockView > i {
+  margin-right: 10px;
+}
+.viewnumber {
+  margin-left: 20px;
+}
+.customeblockView {
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  background-color: rgb(247, 247, 247);
+  padding-top: 10px;
+  font-size: 15px;
+}
+.cardViewImage {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(33, 245, 33, 0.482);
+  border-radius: 100%;
+  padding: 5px;
+}
+
+@media screen and (max-width: 992px) {
+  .slide {
+    display: none;
+  }
+  .media-img{
+    width: 50px;
+  }
+  .navbar-brand-box{
+    background-color: white;
+  }
+}
