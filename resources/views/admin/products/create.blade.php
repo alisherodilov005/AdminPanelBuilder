@@ -41,10 +41,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-12 mt-2">
-                                    <div class="d-flex justify-content-between">
-                                        <div></div> <input type="file" onchange="upLoadImage(this)"
-                                            class="btn btn-light">
-                                    </div>
+                                    
                                     <textarea name="description" class="form-control" id="description" cols="30" rows="10"></textarea>
                                     @error('description')
                                         <span class="text-danger">{{ $message }}</span>
@@ -104,30 +101,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
     <script>
-        function upLoadImage(a) {
-            var formData = new FormData();
-            formData.append('upload', a.files[0]);
-            $.ajax({
-                url: "{{ route('global.image.upload') }}",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                success: function(response) {
+        let secondEditor;
 
-                    console.log('Server response:', response);
-                    // Handle the success response if needed
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr, status, error);
-                }
+        // Initialize CKEditor for the second editor ('description1')
+        ClassicEditor
+            .create(document.querySelector('#description1'))
+            .then(editor => {
+                editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+                    return new MyUploadAdapter(loader);
+                };
+                secondEditor = editor;
+            })
+            .catch(error => {
+                console.error(error);
             });
-        }
 
-
+        // Initialize CKEditor for the first editor ('description')
         ClassicEditor
             .create(document.querySelector('#description'), {
                 ckfinder: {
@@ -135,30 +124,26 @@
                 }
             })
             .then(editor => {
+                // Set up the custom upload adapter
                 editor.plugins.get('FileRepository').createUploadAdapter = loader => {
                     return new MyUploadAdapter(loader);
                 };
+
+                // Event listener for changes in the first editor content
                 editor.model.document.on('change', () => {
-                    // Update the content in the second editor
-                    const content = editor.getData();
-                    const secondEditor = ClassicEditor.instances['description1'];
-                    secondEditor.setData(content);
+                    if (secondEditor) {
+                        // Update the content in the second editor
+                        const content = editor.getData();
+                        secondEditor.setData(content);
+                    }
                 });
+                
             })
             .catch(error => {
                 console.error('Error during initialization of CKEditor', error);
             });
 
-        ClassicEditor
-            .create(document.querySelector('#description1'))
-            .then(editor => {
-                editor.plugins.get('FileRepository').createUploadAdapter = loader => {
-                    return new MyUploadAdapter(loader);
-                };
-            })
-            .catch(error => {
-                console.error(error);
-            });
+
         ClassicEditor
             .create(document.querySelector('#description2'))
             .then(editor => {

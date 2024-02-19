@@ -97,18 +97,97 @@
     <script>
         ClassicEditor
             .create(document.querySelector('#description'))
+            .then(editor => {
+                editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+                    return new MyUploadAdapter(loader);
+                };
+            })
             .catch(error => {
                 console.error(error);
             });
         ClassicEditor
             .create(document.querySelector('#description1'))
+            .then(editor => {
+                editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+                    return new MyUploadAdapter(loader);
+                };
+            })
             .catch(error => {
                 console.error(error);
             });
         ClassicEditor
             .create(document.querySelector('#description2'))
+            .then(editor => {
+                editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+                    return new MyUploadAdapter(loader);
+                };
+            })
             .catch(error => {
                 console.error(error);
             });
+
+        //upload image scr
+        class MyUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+
+            upload() {
+                return this.loader.file
+                    .then(file => new Promise((resolve, reject) => {
+                        this._initRequest();
+                        this._initListeners(resolve, reject, file);
+                        this._sendRequest(file);
+                    }))
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            _initRequest() {
+                this.xhr = new XMLHttpRequest();
+                this.xhr.open('POST', '{{ route('global.image.upload') }}', true);
+                this.xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+            }
+
+            _initListeners(resolve, reject, file) {
+                this.xhr.onload = () => {
+                    if (this.xhr.status >= 200 && this.xhr.status < 300) {
+                        const response = JSON.parse(this.xhr.responseText);
+                        if (response && response.url) {
+                            resolve({
+                                default: response.url
+                            });
+                            console.log(response.url);
+                        } else {
+                            reject('Invalid server response');
+                        }
+                    } else {
+                        reject(`Upload failed with status: ${this.xhr.status}`);
+                    }
+                };
+
+                this.xhr.onerror = () => {
+                    reject(`Network error during the upload`);
+                };
+            }
+
+            _sendRequest(file) {
+                const data = new FormData();
+                data.append('upload', file);
+                this.xhr.send(data);
+            }
+            remove() {
+                // Get the current selection and range from the editor
+                const selection = this.editor.model.document.selection;
+                const range = selection.getFirstRange();
+
+                // Check if the range contains an image
+                if (range.hasAttribute('src')) {
+                    // Remove the image by clearing the source attribute
+                    range.removeAttribute('src');
+                }
+            }
+        }
     </script>
 @endsection

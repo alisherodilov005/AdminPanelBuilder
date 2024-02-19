@@ -31,10 +31,8 @@
                             </div>
                         </div>
                     </div>
-                  
                     <div class="d-flex">
                         <button type="submit" class="btn btn-success mt-2 mb-3">Saqlash</button>
-                        <button class="btn"> Ortga qaytish</button>
                     </div>
                 </form>
             </div>

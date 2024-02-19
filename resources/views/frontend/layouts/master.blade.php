@@ -35,6 +35,15 @@
         font-weight: 700;
         z-index: 100;
     }
+    table{
+        width: 100%;
+    }
+    .image-style-side {
+        margin-right: 0;
+        border-radius: 10px;
+    }
+    
+
 </style>
 
 <body>

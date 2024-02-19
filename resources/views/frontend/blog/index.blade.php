@@ -45,7 +45,7 @@
                                         <div class="tp-team__social">
                                             {!! substr($blog->description, 0, 100) !!}...
                                         </div>
-                                        <a href="{{ route('frontend.products.show', $blog->id) }}"
+                                        <a href="{{ route('blog.show', $blog->id) }}"
                                             class="research-item__btn">{{ __('backend.explore') }}</a>
 
                                     </div>
@@ -66,7 +66,7 @@
                                         <div class="tp-team__social">
                                             {!! substr($blog->description_ru, 0, 100) !!}...
                                         </div>
-                                        <a href="{{ route('frontend.products.show', $blog->id) }}"
+                                        <a href="{{ route('blog.show', $blog->id) }}"
                                             class="research-item__btn">{{ __('backend.explore') }}</a>
 
                                     </div>
