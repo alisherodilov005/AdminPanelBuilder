@@ -32,5 +32,6 @@ class AuthController extends Controller
 
     public function logout()
     {
+        return ['salom'];
     }
 }
