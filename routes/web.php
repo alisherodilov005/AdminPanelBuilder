@@ -43,9 +43,7 @@ Route::get('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout'
 Route::post('/login/auth', [App\Http\Controllers\Auth\AuthController::class, 'authLogin'])->name('login.auth');
 Route::post('image/upload', [App\Http\Controllers\Admin\ImageUploadController::class, 'index'])->name('global.image.upload');
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'language']], function () {
-    Route::get('/index', function () {
-        return view('admin.index');
-    });
+    Route::get('/index', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
 
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
     Route::resource('projects', App\Http\Controllers\Admin\ProjectsController::class);

@@ -13,7 +13,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="popuplarlinks">
-                            
+                            <ul class="list-group" style="height: 483px;overflow-x:hidden;">
+                                @foreach ($repeatedTitle as $url)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="{{ $url->url }} ">{{ $url->url }} </a><span
+                                            class="badge bg-warning">{{ $url->title_count }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
