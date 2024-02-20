@@ -53,7 +53,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <a href="{{route('admin.vacancy.index')}}" class="btn btn-light ">Orqaga</a>
+                <a href="{{ route('admin.vacancy.index') }}" class="btn btn-light ">Orqaga</a>
             </div>
 
         </div>
