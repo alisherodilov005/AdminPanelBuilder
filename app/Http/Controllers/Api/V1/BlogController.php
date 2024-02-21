@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V1\GobalResource;
 use App\Models\Blog;
 
 class BlogController extends Controller
 {
     public function index()
     {
-        return Blog::with('media')->get();
+        return GobalResource::collection(Blog::all());
     }
 }

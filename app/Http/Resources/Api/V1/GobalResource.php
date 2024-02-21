@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VacancyResource extends JsonResource
+class GobalResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,6 +24,5 @@ class VacancyResource extends JsonResource
             'description_en' => $this->description_en,
             'media' => MediaResource::collection($this->media),
         ];
-        // return parent::toArray($request);
     }
 }
