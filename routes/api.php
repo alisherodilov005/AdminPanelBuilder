@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// 'middleware' => ['auth:sanctum']
 
-Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'App\Http\Controllers\Api\V1', 'middleware' => ['auth:sanctum']], function () {
+Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
     // Api Routes
     Route::get('/products', 'ProductsController@index');
     Route::get('/vacansy', 'VacancyController@index');
