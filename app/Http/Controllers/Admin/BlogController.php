@@ -49,7 +49,13 @@ class BlogController extends Controller
             'mainPhoto' => 'required',
         ]);
         $partner = Blog::create($request->all());
-        $partner->addMediaFromRequest('mainPhoto')->usingName($partner->id)->toMediaCollection();
+        try {
+            $images = $request->file('mainPhoto');
+            foreach ($images as $image) {
+                $partner->addMedia($image)->usingName($partner->id)->toMediaCollection();
+            }
+        } catch (\Throwable $th) {
+        }
 
         return redirect()->route('admin.blogs.index');
     }
@@ -99,7 +105,8 @@ class BlogController extends Controller
      */
     public function destroy(string $id)
     {
-        $blog = Blog::find($id);
+        $blog = Blog::with('media')->findOrFail($id);
+        $blog->media->each->delete();
         $blog->delete();
 
         return back();

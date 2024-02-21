@@ -20,7 +20,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="">Image</label>
-                                        <input type="file" class="form-control" name="mainPhoto">
+                                        <input type="file" multiple class="form-control" name="mainPhoto[]">
                                         @error('mainPhoto')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror

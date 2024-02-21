@@ -37,8 +37,10 @@
                                             {{ $item->id }}
                                         </td>
                                         <td>
-                                            <img src="{{ $item->getFirstMediaUrl() ?? '' }}" alt=""
-                                                style="width: 200px">
+                                            @foreach ($item->getMedia() as $image)
+                                                <img src="{{ $image->getUrl() }}"
+                                                    style="width: 150px; border-radius:10px;padding:10px;" alt="">
+                                            @endforeach
                                         </td>
                                         <td>
                                             {{ $item->title }}
