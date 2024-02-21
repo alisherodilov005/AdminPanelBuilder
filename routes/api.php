@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
+Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'App\Http\Controllers\Api\V1', 'middleware' => ['auth:sanctum']], function () {
     // Api Routes
     Route::get('/products', 'ProductsController@index');
+    Route::get('/vacansy', 'VacancyController@index');
+    Route::get('/news', 'BlogController@index');
 });
 
 Route::post('login', [App\Http\Controllers\Api\Auth\AuthController::class, 'login']);
