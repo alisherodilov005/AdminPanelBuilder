@@ -8,12 +8,21 @@ use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:partners_index')->only('index');
+        $this->middleware('permission:projects_create')->only('create');
+        $this->middleware('permission:projects_edit')->only('edit');
+        $this->middleware('permission:projects_delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $projects = Projects::all();
+
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -22,7 +31,7 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        return view("admin.projects.create");
+        return view('admin.projects.create');
     }
 
     /**
@@ -37,13 +46,13 @@ class ProjectsController extends Controller
             'description' => 'required',
             'description_ru' => 'required',
             'description_en' => 'required',
-            'photo' => 'required'
+            'photo' => 'required',
         ]);
         $projects = Projects::create($request->all());
 
-
-        //file upload
+        // file upload
         $projects->addMediaFromRequest('photo')->usingName($projects->id)->toMediaCollection();
+
         return redirect('admin/projects');
     }
 
@@ -52,7 +61,6 @@ class ProjectsController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -61,6 +69,7 @@ class ProjectsController extends Controller
     public function edit(string $id)
     {
         $data = Projects::find($id);
+
         return view('admin.projects.edit', compact('data'));
     }
 
@@ -69,7 +78,6 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
         $request->validate([
             'title' => 'required',
             'title_ru' => 'required',
@@ -77,7 +85,7 @@ class ProjectsController extends Controller
             'description' => 'required',
             'description_ru' => 'required',
             'description_en' => 'required',
-            'link'=>'required',
+            'link' => 'required',
         ]);
         $project = Projects::find($id);
         $project->update($request->all());
@@ -85,6 +93,7 @@ class ProjectsController extends Controller
             $project->clearMediaCollection();
             $project->addMediaFromRequest('photo')->usingName($project->id)->toMediaCollection();
         }
+
         return redirect()->route('admin.projects.index');
     }
 
@@ -95,6 +104,7 @@ class ProjectsController extends Controller
     {
         $project = Projects::find($id);
         $project->delete();
+
         return back();
     }
 }

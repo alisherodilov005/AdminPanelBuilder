@@ -3,10 +3,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2>{{__('backend.fill')}}</h2>
-                <a href="{{ route('admin.filillar.create') }}" class="btn btn-success">Create Filial</a>
+                <h2>{{ __('backend.fill') }}</h2>
                 <div class="card mt-2">
                     <div class="card-body">
+                        @can('fillials_create')
+                            <x-create-button route="{{ route('admin.filillar.create') }}" name="{{ __('backend.fill') }}" />
+                        @endcan
                         <table class="table">
                             <tr>
                                 <th>
@@ -44,18 +46,12 @@
                                             {{ $fil->subtext }}
                                         </td>
                                         <td>
-                                            {{$fil->region->name}}
+                                            {{ $fil->region->name }}
                                         </td>
                                         <td>
-                                            <div class="d-flex">
-                                                <form action="{{ route('admin.filillar.destroy', $fil->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger">Delete</button>
-                                                </form>
-                                                <a class="btn btn-info" href="{{route('admin.filillar.edit' , $fil->id)}}">Edit</a>
-                                            </div>
+                                            <x-action-buttons routeDelete="{{ route('admin.filillar.destroy', $fil->id) }}"
+                                                routeEdit="{{ route('admin.filillar.edit', $fil->id) }}"
+                                                canDelete="fillials_delete" canEdit="fillials_edit" />
                                         </td>
                                     </tr>
                                 @endforeach

@@ -4,7 +4,9 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>{{ __('backend.blog') }}</h2>
-                <a href="{{ route('admin.blogs.create') }}" class="btn btn-success">Create Blogs</a>
+                @can('news_create')
+                    <x-create-button route="{{ route('admin.blogs.create') }}" name="Yangilik" />
+                @endcan
                 <div class="card mt-2">
                     <div class="card-body">
                         <table class="table">
@@ -36,7 +38,7 @@
                                         </td>
                                         <td>
                                             <img src="{{ $item->getFirstMediaUrl() ?? '' }}" alt=""
-                                                style="width: 250px">
+                                                style="width: 200px">
                                         </td>
                                         <td>
                                             {{ $item->title }}
@@ -49,7 +51,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <x-action-buttons
+                                                <x-action-buttons canDelete="news_delete" canEdit="news_edit"
                                                     routeDelete="{{ route('admin.blogs.destroy', $item->id) }}"
                                                     routeEdit="{{ route('admin.blogs.edit', $item->id) }}" />
                                             </div>

@@ -8,12 +8,21 @@ use Illuminate\Http\Request;
 
 class FiliallarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:fillials_index')->only('index');
+        $this->middleware('permission:fillials_create')->only('create');
+        $this->middleware('permission:fillials_edit')->only('edit');
+        $this->middleware('permission:fillials_delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $data = Filliar::all();
+
         return view('admin.filillar.index', compact('data'));
     }
 
@@ -39,10 +48,11 @@ class FiliallarController extends Controller
                 'subtext_en' => 'required',
                 'subtext_ru' => 'required',
                 'number' => 'required',
-                'region_id' => 'required'
+                'region_id' => 'required',
             ]
         );
         Filliar::create($request->all());
+
         return redirect()->route('admin.filillar.index');
     }
 
@@ -51,7 +61,6 @@ class FiliallarController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -60,6 +69,7 @@ class FiliallarController extends Controller
     public function edit(string $id)
     {
         $fill = Filliar::find($id);
+
         return view('admin.filillar.edit', compact('fill'));
     }
 
@@ -77,13 +87,13 @@ class FiliallarController extends Controller
                 'subtext_en' => 'required',
                 'subtext_ru' => 'required',
                 'number' => 'required',
-                'region_id' => 'required'
+                'region_id' => 'required',
             ]
         );
         $fill = Filliar::find($id);
         $fill->update($request->all());
-        return redirect()->route('admin.filillar.index');
 
+        return redirect()->route('admin.filillar.index');
     }
 
     /**
@@ -93,6 +103,7 @@ class FiliallarController extends Controller
     {
         $data = Filliar::find($id);
         $data->delete();
+
         return back();
     }
 }

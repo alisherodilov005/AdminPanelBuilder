@@ -1,26 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace {{ namespace }};
 
-use App\Http\Controllers\Controller;
-use App\Models\Documents;
+use {{ rootNamespace }}Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DocumentController extends Controller
+class {{ class }} extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('permission:documents_index')->only('index');
-    }
-
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function all()
     {
-        $docs = Documents::all();
-
-        return view('admin.doc.index', compact('docs'));
+        //
     }
 
     /**
@@ -28,7 +20,7 @@ class DocumentController extends Controller
      */
     public function create()
     {
-        return redirect('404');
+        //
     }
 
     /**
@@ -36,13 +28,7 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'docImage' => 'required',
-        ]);
-        $doc = Documents::create();
-        $doc->addMediaFromRequest('docImage')->usingName($doc->id)->toMediaCollection();
-
-        return back();
+        //
     }
 
     /**
@@ -50,6 +36,7 @@ class DocumentController extends Controller
      */
     public function show(string $id)
     {
+        //
     }
 
     /**
@@ -57,6 +44,7 @@ class DocumentController extends Controller
      */
     public function edit(string $id)
     {
+        //
     }
 
     /**
@@ -64,6 +52,7 @@ class DocumentController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        //
     }
 
     /**
@@ -71,9 +60,6 @@ class DocumentController extends Controller
      */
     public function destroy(string $id)
     {
-        $doc = Documents::find($id);
-        $doc->delete();
-
-        return back();
+        //
     }
 }

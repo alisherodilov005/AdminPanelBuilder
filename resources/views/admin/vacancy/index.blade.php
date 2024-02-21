@@ -6,8 +6,11 @@
                 <h1>Vacancy Table</h1>
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ route('admin.vacancy.create') }}" class="btn btn-success">Create Vacancy</a>
+                        @can('vacancy_create')
+                            <x-create-button route="{{ route('admin.vacancy.create') }}" name="Vakansiya" />
+                        @endcan
                         <table class="table">
+
                             <thead>
                                 <th>
                                     id
@@ -34,7 +37,7 @@
                                         <td>
                                             {{ $data->id }}
                                         </td>
-                                       
+
                                         <td>
                                             {{ $data->title }}
                                         </td>
@@ -49,13 +52,9 @@
                                                 alt="">
                                         </td>
                                         <td>
-                                            <div class="d-flex">
-                                                <form action="{{ route('admin.vacancy.destroy', $data->id) }}"
-                                                    method="POST">
-                                                    @csrf @method('DELETE')<button class="btn btn-danger">Delete</button>
-                                                </form>
-                                                <a href="{{route('admin.vacancy.show' , $data->id)}}" class="btn btn-info">Show</a>
-                                            </div>
+                                            <x-action-buttons canDelete="vacancy_delete" canEdit="vacancy_edit"
+                                            routeDelete="{{ route('admin.vacancy.destroy', $data->id) }}"
+                                            routeEdit="{{ route('admin.vacancy.edit', $data->id) }}" />
                                         </td>
                                     </tr>
                                 @endforeach

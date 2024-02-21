@@ -8,13 +8,22 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:partners_index')->only('index');
+        $this->middleware('permission:projects_create')->only('create');
+        $this->middleware('permission:projects_edit')->only('edit');
+        $this->middleware('permission:projects_delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $products = Products::paginate(20);
-        return view("admin.products.index", compact('products'));
+
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -22,7 +31,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view("admin.products.create");
+        return view('admin.products.create');
     }
 
     /**
@@ -41,9 +50,9 @@ class ProductsController extends Controller
             'products' => 'required|file|mimes:jpg,jpeg,png,pdf',
         ]);
         $product = Products::create($request->all());
-       
+
         try {
-            //code...
+            // code...
             $product->addMediaFromRequest('products')->usingName($product->id)->toMediaCollection();
         } catch (\Throwable $th) {
             return back()->withErrors($th);
@@ -57,7 +66,6 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -66,6 +74,7 @@ class ProductsController extends Controller
     public function edit(string $id)
     {
         $data = Products::find($id);
+
         return view('admin.products.edit', compact('data'));
     }
 
@@ -82,7 +91,6 @@ class ProductsController extends Controller
             'description_ru' => 'required',
             'description_en' => 'required',
             'link' => 'required',
-
         ]);
         $product = Products::find($id);
         $product->update($request->all());
@@ -90,8 +98,8 @@ class ProductsController extends Controller
             $product->clearMediaCollection();
             $product->addMediaFromRequest('products')->usingName($product->id)->toMediaCollection();
         }
-        return redirect()->route('admin.products.index');
 
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -101,6 +109,7 @@ class ProductsController extends Controller
     {
         $p = Products::find($id);
         $p->delete();
+
         return back();
     }
 }

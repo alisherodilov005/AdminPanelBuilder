@@ -1,11 +1,11 @@
-@props(['routeDelete', 'routeEdit'])
-{{-- 'canDelete' , 'canEdit' --}}
+@props(['routeDelete', 'routeEdit' ,'canDelete' , 'canEdit'])
+
 <div class="d-flex">
-    {{-- @can($canDelete) --}}
+    @can($canDelete)
         <x-delete-button route="{{ $routeDelete }}" />
-    {{-- @endcan --}}
+    @endcan
     <div style="width: 10px;"></div>
-    {{-- @can('canEdit')      --}}
+    @can($canEdit)     
        <x-edit-button route="{{ $routeEdit }}" />
-    {{-- @endcan --}}
+    @endcan
 </div>

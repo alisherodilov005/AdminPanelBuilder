@@ -8,13 +8,22 @@ use Illuminate\Http\Request;
 
 class VacancyController extends Controller
 {
-    /**
+    public function __construct()
+    {
+        $this->middleware('permission:vacancy_index')->only('index');
+        $this->middleware('permission:vacancy_create')->only('create');
+        $this->middleware('permission:vacancy_edit')->only('edit');
+        $this->middleware('permission:vacancy_delete')->only('destroy');
+    }
+
+    /**`
      * Display a listing of the resource.
      */
     public function index()
     {
         $datas = Vacancy::all();
-        return view("admin.vacancy.index" , compact("datas"));
+
+        return view('admin.vacancy.index', compact('datas'));
     }
 
     /**
@@ -22,7 +31,7 @@ class VacancyController extends Controller
      */
     public function create()
     {
-        return view("admin.vacancy.create");
+        return view('admin.vacancy.create');
     }
 
     /**
@@ -37,11 +46,12 @@ class VacancyController extends Controller
             'description' => 'required',
             'description_ru' => 'required',
             'description_en' => 'required',
-            'image'=>'required'
+            'image' => 'required',
         ]);
         $vacancy = Vacancy::create($request->all());
         $vacancy->addMediaFromRequest('image')->usingName($vacancy->title)->toMediaCollection();
-        return redirect()->route("admin.vacancy.index");
+
+        return redirect()->route('admin.vacancy.index');
     }
 
     /**
@@ -49,8 +59,9 @@ class VacancyController extends Controller
      */
     public function show(string $id)
     {
-       $vacancy =  Vacancy::find($id);
-        return view('admin.vacancy.show' , compact('vacancy'));
+        $vacancy = Vacancy::find($id);
+
+        return view('admin.vacancy.show', compact('vacancy'));
     }
 
     /**
@@ -58,7 +69,6 @@ class VacancyController extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
@@ -66,7 +76,6 @@ class VacancyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
     }
 
     /**
@@ -76,6 +85,7 @@ class VacancyController extends Controller
     {
         $vacancy = Vacancy::find($id);
         $vacancy->delete();
+
         return back();
     }
 }

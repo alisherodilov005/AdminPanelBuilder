@@ -5,7 +5,9 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ route('admin.permissions.create') }}" class="btn btn-primary">Create Role Permission</a>
+                        @can('permissions_create')
+                            <x-create-button route="{{ route('admin.permissions.create') }}" name="Permissions" />
+                        @endcan
                         <table class="table table-bordered table-nowrap mt-3">
                             <thead>
                                 <th>
@@ -25,19 +27,21 @@
                                             {{ $role->name }}
                                         </td>
                                         <td>
-                                            @foreach ($role->permissions as $permission)
-                                                <span class="badge bg-primary">{{ $permission->name }}</span>
-                                            @endforeach
+                                            <div class="row">
+                                                @foreach ($role->permissions as $permission)
+                                                    <div class="col-md-2">
+                                                        <span
+                                                            class="badge bg-success-subtle text-success m-1">{{ $permission->name }}</span>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="d-flex">
                                                 <x-action-buttons
                                                     routeDelete="{{ route('admin.permissions.destroy', $role->id) }}"
-                                                    routeEdit="{{ route('admin.permissions.edit', $role->id) }}"
-                                                    {{-- canDelete="permission-delete" canEdit="permission-edit"  --}}
-                                                    />
-                                                {{-- <x-delete-button route="{{ route('admin.permissions.destroy', $role->id) }}" />
-                                                <x-edit-button route="{{ route('admin.permissions.edit', $role->id) }}" /> --}}
+                                                    canDelete="permissions_delete" canEdit="permissions_edit"
+                                                    routeEdit="{{ route('admin.permissions.edit', $role->id) }}" />
                                             </div>
                                         </td>
                                     </tr>

@@ -3,10 +3,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                
+
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-success">Create User</a>
+                        @can('users_create')
+                            <x-create-button route="{{ route('admin.users.create') }}" name="User" />
+                        @endcan
                         <table class="table table-nowrap table-bordered mt-2">
                             <thead>
                                 <th>
@@ -38,15 +40,15 @@
                                             {{ $user->email }}
                                         </td>
                                         <td>
-                                            @foreach ($user->roles as  $role)
+                                            @foreach ($user->roles as $role)
                                                 <span class="badge bg-primary">{{ $role->name }}</span>
                                             @endforeach
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                 <x-delete-button route="{{ route('admin.users.destroy', $user->id) }}"/>
-                                                <div style="width: 10px;"></div>
-                                                <x-edit-button route="{{ route('admin.users.edit', $user->id) }}"/>
+                                                <x-action-buttons canDelete="users_delete" canEdit="users_edit"
+                                                    routeDelete="{{ route('admin.users.destroy', $user->id) }}"
+                                                    routeEdit="{{ route('admin.users.edit', $user->id) }}" />
                                             </div>
                                         </td>
                                     </tr>

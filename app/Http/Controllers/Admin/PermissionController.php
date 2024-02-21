@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Middlewares\PermissionMiddleware;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -13,6 +12,9 @@ class PermissionController extends Controller
     public function __construct()
     {
         $this->middleware('permission:permissions_index')->only('index');
+        $this->middleware('permission:permissions_create')->only('create');
+        $this->middleware('permission:permissions_edit')->only('edit');
+        $this->middleware('permission:permissions_delete')->only('destroy');
     }
 
     /**
@@ -21,6 +23,7 @@ class PermissionController extends Controller
     public function index()
     {
         $roles = Role::all();
+
         return view('admin.permissions.index', compact('roles'));
     }
 
@@ -31,6 +34,7 @@ class PermissionController extends Controller
     {
         $roles = Role::pluck('id', 'name');
         $permissions = Permission::pluck('name', 'id');
+
         return view('admin.permissions.create', compact('roles', 'permissions'));
     }
 
@@ -46,6 +50,7 @@ class PermissionController extends Controller
         // Find the role based on the provided 'roles_id'
         $role = Role::findOrFail($request->input('role_id'));
         $role->syncPermissions($request->input('permissions'));
+
         return redirect()->route('admin.permissions.index');
     }
 
@@ -54,7 +59,6 @@ class PermissionController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -65,7 +69,8 @@ class PermissionController extends Controller
         $roles = Role::pluck('id', 'name');
         $permissions = Permission::pluck('name', 'id');
         $role = Role::find($id);
-        return view('admin.permissions.edit'  ,compact('role' , 'roles' , 'permissions'));
+
+        return view('admin.permissions.edit', compact('role', 'roles', 'permissions'));
     }
 
     /**
@@ -76,6 +81,7 @@ class PermissionController extends Controller
         $role = Role::find($id);
         $role->update($request->all());
         $role->syncPermissions($request->input('permissions', []));
+
         return redirect()->route('admin.permissions.index');
     }
 
@@ -87,6 +93,7 @@ class PermissionController extends Controller
         $role = Role::findOrFail($id);
         $role->permissions()->detach();
         $role->delete();
+
         return back();
     }
 }

@@ -3,19 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:users_index')->only('index');
+        $this->middleware('permission:users_create')->only('create');
+        $this->middleware('permission:users_edit')->only('edit');
+        $this->middleware('permission:users_delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $users = User::with('permissions')->get();
-        return view("admin.users.index", compact('users'));
+
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -23,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view("admin.users.create");
+        return view('admin.users.create');
     }
 
     /**
@@ -32,15 +42,16 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required',
-            'email'=>'required',
-            'password'=>'required'
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
         User::create([
-            'name'=>$request->input("name"),
-            'email'=>$request->input('email'),
-            'password'=>bcrypt($request->input("password"))
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
         ]);
+
         return redirect('admin/users');
     }
 
@@ -49,7 +60,6 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -59,7 +69,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::all();
-        return view('admin.users.edit' , compact('user' , 'roles'));
+
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -73,7 +84,8 @@ class UserController extends Controller
             $user->password = Hash::make($request->input('password'));
             $user->save();
         }
-        $user->syncRoles($request->input('roles')); 
+        $user->syncRoles($request->input('roles'));
+
         return redirect()->route('admin.users.index');
     }
 
@@ -84,6 +96,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->delete();
+
         return back();
     }
 }

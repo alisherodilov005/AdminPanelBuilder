@@ -3,18 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Blog;
+use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:news_index')->only('index');
+        $this->middleware('permission:news_create')->only('create');
+        $this->middleware('permission:news_edit')->only('edit');
+        $this->middleware('permission:news_delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
         $blogs = Blog::all();
+
         return view('admin.blogs.index', compact('blogs'));
     }
 
@@ -38,10 +46,11 @@ class BlogController extends Controller
             'description' => 'required',
             'description_ru' => 'required',
             'description_en' => 'required',
-            'mainPhoto' => 'required'
+            'mainPhoto' => 'required',
         ]);
         $partner = Blog::create($request->all());
         $partner->addMediaFromRequest('mainPhoto')->usingName($partner->id)->toMediaCollection();
+
         return redirect()->route('admin.blogs.index');
     }
 
@@ -50,7 +59,6 @@ class BlogController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -59,6 +67,7 @@ class BlogController extends Controller
     public function edit(string $id)
     {
         $data = Blog::find($id);
+
         return view('admin.blogs.edit', compact('data'));
     }
 
@@ -81,6 +90,7 @@ class BlogController extends Controller
             $blog->clearMediaCollection();
             $blog->addMediaFromRequest('mainPhoto')->usingName($blog->id)->toMediaCollection();
         }
+
         return redirect()->route('admin.blogs.index');
     }
 
@@ -91,6 +101,7 @@ class BlogController extends Controller
     {
         $blog = Blog::find($id);
         $blog->delete();
+
         return back();
     }
 }

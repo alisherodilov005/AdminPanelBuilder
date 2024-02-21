@@ -3,7 +3,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-               
                 <div class="card">
                     <div class="card-body">
                         <h2>User Create</h2>

@@ -3,36 +3,40 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function login()
     {
-
-        return view("auth.login");
-
+        return view('auth.login');
     }
+
     public function authLogin(Request $request)
     {
         $request->validate([
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 Auth::login($user);
-                return redirect('admin/users');
+
+                return redirect('admin/index');
             }
         }
+
         return back();
     }
-    public function logout(){
+
+    public function logout()
+    {
         Auth::logout();
-        return redirect()->route("login");
+
+        return redirect()->route('login');
     }
 }

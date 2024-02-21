@@ -4,11 +4,13 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>{{ __('backend.projects') }}</h2>
-               
+
                 <div class="card mt-2">
                     <div class="card-body">
-                        <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">Create project</a>
-                        <table class="table mt-3mas" >
+                        @can('projects_create')
+                            <x-create-button route="{{ route('admin.projects.create') }}" name="Projectlar" />
+                        @endcan
+                        <table class="table mt-3mas">
                             <tr>
                                 <th>
                                     id
@@ -38,9 +40,10 @@
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <x-delete-button route="{{ route('admin.projects.destroy', $project->id) }}"/>
-                                                <a href="{{ route('admin.projects.edit', $project->id) }}"
-                                                    class="btn btn-warning"><i class="ri-edit-2-line"></i></a>
+                                                <x-action-buttons
+                                                    routeDelete="{{ route('admin.projects.destroy', $project->id) }}"
+                                                    routeEdit="{{ route('admin.projects.edit', $project->id) }}"
+                                                    canDelete="projects_delete" canEdit="projects_edit" />
                                             </div>
                                         </td>
                                     </tr>

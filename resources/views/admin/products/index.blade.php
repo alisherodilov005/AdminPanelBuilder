@@ -6,20 +6,22 @@
                 <h1>{{ __('backend.products') }} </h1>
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ route('admin.products.create') }}" class="btn btn-success">Create Product</a>
+                        @can('products_create')
+                            <x-create-button route="{{ route('admin.products.create') }}" name="{{__('backend.products')}}" />
+                        @endcan
                         <table class="table">
                             <thead>
                                 <th>
                                     id
                                 </th>
                                 <th>
-                                    title
+                                    Title
                                 </th>
                                 <th>
-                                    title_ru
+                                    Title_ru
                                 </th>
                                 <th>
-                                    title_en
+                                    Title_en
                                 </th>
                                 <th>
                                     Link
@@ -47,20 +49,22 @@
                                             {{ $data->title_en }}
                                         </td>
                                         <td>
-                                            {{ $data->link }}
+                                            <a href="{{ $data->link }}">{{ $data->link }}</a>
                                         </td>
                                         <td>
                                             <img src="{{ $data->getFirstMediaUrl() ?? '' }}" alt=""
                                                 style="width: 150px;border-radius:5px;">
                                         </td>
                                         <td>
-                                            <x-action-buttons routeDelete="{{ route('admin.products.destroy', $data->id) }}" routeEdit="{{route('admin.products.edit' , $data->id)}}"/>
+                                            <x-action-buttons routeDelete="{{ route('admin.products.destroy', $data->id) }}"
+                                                routeEdit="{{ route('admin.products.edit', $data->id) }}"
+                                                canDelete="products_delete" canEdit="products_edit" />
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <div >
+                        <div>
                             {!! $products->links() !!}
                         </div>
                     </div>

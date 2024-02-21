@@ -4,9 +4,6 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Document</h2>
-                <!-- Button trigger modal -->
-
-                <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
