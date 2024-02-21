@@ -18,6 +18,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'App\Http\Control
     Route::get('/products', 'ProductsController@index');
     Route::get('/vacansy', 'VacancyController@index');
     Route::get('/news', 'BlogController@index');
+    Route::get('/documents', 'DocumentController@index');
 });
 
 Route::post('login', [App\Http\Controllers\Api\Auth\AuthController::class, 'login']);
