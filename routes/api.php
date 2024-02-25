@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // 'middleware' => ['auth:sanctum']
+Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'App\Http\Controllers\Api\V1', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/user', function () {
+        return auth()->user();
+    });
+});
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
     // Api Routes
